@@ -46,7 +46,7 @@ export default function Navbar() {
                     onClick={() => lenis?.scrollTo(0, { immediate: true })}
                 >
                     <img
-                        src="/logo.png"
+                        src="/portfolio/logo.png"
                         alt="Tinashe Logo"
                         className="h-7 md:h-8 w-auto" // Slightly smaller logo fits the pill better
                     />

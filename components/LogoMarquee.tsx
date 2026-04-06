@@ -2,12 +2,12 @@
 import { motion } from "framer-motion";
 
 const logos = [
-    { name: "CHEMA", src: "/logos/chema.png" },
-    { name: "MUZUKURU", src: "/logos/muzukuru.png" },
-    { name: "agrosense ai", src: "/logos/agrosense.png" },
-    { name: "Albinism Konnect", src: "/logos/albinism-konnect.png" },
-    { name: "Rideo", src: "/logos/old_mutual_logo.png" },
-    { name: "Farmers' Magazine", src: "/logos/rt.png" },
+    { name: "CHEMA", src: "/portfolio/logos/chema.png" },
+    { name: "MUZUKURU", src: "/portfolio/logos/muzukuru.png" },
+    { name: "agrosense ai", src: "/portfolio/logos/agrosense.png" },
+    { name: "Albinism Konnect", src: "/portfolio/logos/albinism-konnect.png" },
+    { name: "Rideo", src: "/portfolio/logos/old_mutual_logo.png" },
+    { name: "Farmers' Magazine", src: "/portfolio/logos/rt.png" },
 ];
 
 export default function LogoMarquee() {
