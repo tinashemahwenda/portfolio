@@ -13,25 +13,25 @@ const designs = [
     },
     {
         id: 2,
-        src: "/gallery/first-mutual.png",
+        src: "/gallery/mms-login.png",
         alt: "Mobile App Onboarding",
         className: "md:col-span-1 md:row-span-1"
     },
     {
         id: 3,
-        src: "/gallery/shot-3.jpg",
+        src: "/gallery/mms-login.png",
         alt: "SaaS Analytics",
         className: "md:col-span-1 md:row-span-1"
     },
     {
         id: 4,
-        src: "/gallery/shot-4.jpg",
+        src: "/gallery/mms-login.png",
         alt: "E-commerce checkout",
         className: "md:col-span-1 md:row-span-1"
     },
     {
         id: 5,
-        src: "/gallery/shot-5.jpg",
+        src: "/gallery/mms-login.png",
         alt: "Health App typography",
         // Spans 2 columns to break up the layout
         className: "md:col-span-2 md:row-span-1"

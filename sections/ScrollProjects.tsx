@@ -7,19 +7,19 @@ import Link from "next/link"; // ✅ Fixed import
 const projects = [
     {
         id: 1,
-        title: "Muzukuru",
-        slug: "muzukuru",
-        desc: "A seamless funeral streaming platform connecting families globally with native video integration and real-time chat.",
-        tags: ["UX Research", "Mobile App", "Live Video"],
+        title: "Albinism Konnect",
+        slug: "albinism-konnect",
+        desc: "Scaled the platform to 3x its original user base through improved accessibility & multilingual support",
+        tags: ["🏆Awarded Davis Peace Project 2025"],
         image: "/projects/albinism-konnect-background-gray.jpg",
         color: "#F3F4F6",
         textColor: "#111111"
     },
     {
         id: 2,
-        title: "AgroSense AI", // Put your actual title back
-        slug: "agrosense-ai",
-        desc: "A powerful farming analytics dashboard that uses machine learning to predict crop yields and optimize water usage.",
+        title: "Old Mutual", // Put your actual title back
+        slug: "old-mutual",
+        desc: "Led the redesign of an AI-powered SaaS tenant portal which led to client retention",
         tags: ["SaaS", "Dashboard", "AI"],
         image: "/projects/old-mutual-dash.png",
         color: "#E5E7EB",
@@ -27,13 +27,13 @@ const projects = [
     },
     {
         id: 3,
-        title: "Albinism Konnect",
-        slug: "albinism-konnect",
-        desc: "An accessible, community-driven platform empowering lives through tailored knowledge and resources.",
-        tags: ["Web Design", "Accessibility", "Non-Profit"],
-        image: "/projects/albinism-mockup.png",
-        color: "#1A1A1A",
-        textColor: "#FFFFFF"
+        title: "CHEMA Wallet",
+        slug: "chema",
+        desc: "Led the full-cycle product design and developemnt for a Funeral Crowd-funding platform for people abroad",
+        tags: ["Fintech", "Crowd-Funding"],
+        image: "/projects/chema.png",
+        color: "#FFFFFF",
+        textColor: "#111111"
     },
 ];
 
@@ -134,7 +134,6 @@ const ProjectCard = ({ index, project, progress, total, targetScale }: CardProps
                     {project.desc}
                 </p>
 
-                {/* Call to Action */}
                 <Link
                     href={`/work/${project.slug}`}
                     className={`inline-flex items-center justify-center gap-2 w-full md:w-fit px-6 py-3.5 md:py-3 rounded-full text-sm font-bold transition-all hover:scale-105 active:scale-95 ${isDark
@@ -149,8 +148,6 @@ const ProjectCard = ({ index, project, progress, total, targetScale }: CardProps
                 </Link>
             </div>
 
-            {/* RIGHT COLUMN: The Image Mockup */}
-            {/* On mobile, image moves to top (order-1) and takes 45% height */}
             <div className="w-full md:w-7/12 h-[45%] md:h-full relative overflow-hidden bg-black/5 shadow-[inset_10px_0_20px_rgba(0,0,0,0.03)] order-1 md:order-2 border-b border-black/5 md:border-b-0 md:border-l">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 z-0" />
 

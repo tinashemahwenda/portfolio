@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
       <TitleMarquee />
       <ScrollProjects />
-      <Gallery /> {/* 2. Place it here */}
+      {/*<Gallery />*/}
       <About />
       <Footer />
     </main>
