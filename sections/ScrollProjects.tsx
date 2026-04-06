@@ -1,121 +1,166 @@
 "use client";
-
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import ScrollProjectCard from "../components/ScrollProjectCard";
+import Image from "next/image";
+import Link from "next/link"; // ✅ Fixed import
 
-const projectsData = [
+const projects = [
     {
+        id: 1,
+        title: "Muzukuru",
+        slug: "muzukuru",
+        desc: "A seamless funeral streaming platform connecting families globally with native video integration and real-time chat.",
+        tags: ["UX Research", "Mobile App", "Live Video"],
+        image: "/projects/albinism-konnect-background-gray.jpg",
+        color: "#F3F4F6",
+        textColor: "#111111"
+    },
+    {
+        id: 2,
+        title: "AgroSense AI", // Put your actual title back
+        slug: "agrosense-ai",
+        desc: "A powerful farming analytics dashboard that uses machine learning to predict crop yields and optimize water usage.",
+        tags: ["SaaS", "Dashboard", "AI"],
+        image: "/projects/old-mutual-dash.png",
+        color: "#E5E7EB",
+        textColor: "#111111"
+    },
+    {
+        id: 3,
         title: "Albinism Konnect",
-        category: "Health Tech",
-        tags: ["Health Tech", "Android", "Accessibility"],
-        description:
-            "Scaled the platform to 3x its original user base through improved accessibility & multilingual support.",
-        theme: "dark" as const,
-    },
-    {
-        title: "Old Mutual",
-        category: "Financial App",
-        tags: ["UI/UX", "Web", "SaaS"],
-        description:
-            "Led the redesign of an AI-powered SaaS tenant portal which led to massive client retention.",
-        theme: "light" as const,
-    },
-    {
-        title: "CHEMA Wallet",
-        category: "Fintech",
-        tags: ["Fintech", "Crowd-funding", "iOS"],
-        description:
-            "Built a seamless digital wallet experience focusing on frictionless onboarding and secure transactions.",
-        theme: "dark" as const,
+        slug: "albinism-konnect",
+        desc: "An accessible, community-driven platform empowering lives through tailored knowledge and resources.",
+        tags: ["Web Design", "Accessibility", "Non-Profit"],
+        image: "/projects/albinism-mockup.png",
+        color: "#1A1A1A",
+        textColor: "#FFFFFF"
     },
 ];
 
 export default function ScrollProjects() {
     const containerRef = useRef<HTMLElement>(null);
-    const headerRef = useRef<HTMLDivElement>(null);
 
-    // 1. Track global scroll for the main section
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start start", "end end"],
+        offset: ["start start", "end end"]
     });
-
-    // 2. Track scroll specifically for the header element for the line animation
-    const { scrollYProgress: headerProgress } = useScroll({
-        target: headerRef,
-        offset: ["start end", "end start"]
-    });
-
-    // 🎬 Line Animation: Animates width from 0 to 100% as you exit the header
-    const lineWidth = useTransform(headerProgress, [0.3, 0.9], ["0%", "100%"]);
 
     return (
-        // Total section height is h-[450vh] (400vh for cards + 50vh for the header to scroll by)
-        <section id="work" ref={containerRef} className="h-[450vh] relative w-full bg-[#141414]">
+        // Adjusted padding for mobile
+        <section ref={containerRef} id="work" className="relative pb-24 md:pb-32 pt-12 px-4 md:px-8 scroll-mt-24 md:scroll-mt-32 bg-white">
+            <div className="max-w-6xl mx-auto">
+                <div className="mb-12 md:mb-24 px-2">
+                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tighter text-[#1A1A1A]">
+                        Selected Works
+                    </h2>
+                </div>
 
-            {/* SECTION HEADER (Non-sticky) */}
-            <div ref={headerRef} className="bg-white pt-8 pb-24 md:pt-12 md:pb-32">
-                <div className="max-w-6xl mx-auto flex flex-col items-start gap-4">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-7xl font-extrabold tracking-tighter text-[#1A1A1A] leading-tight"
-                    >
-                        Projects
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-xl md:text-2xl text-gray-600 max-w-2xl leading-relaxed font-medium"
-                    >
-                        Dive into the secrets I use to design products that have massive impact
-                    </motion.p>
+                <div className="relative flex flex-col gap-8 md:gap-24 mb-[5vh] md:mb-[10vh]">
+                    {projects.map((project, index) => {
+                        const targetScale = 1 - ((projects.length - index) * 0.04);
+                        return (
+                            <ProjectCard
+                                key={project.id}
+                                index={index}
+                                project={project}
+                                progress={scrollYProgress}
+                                total={projects.length}
+                                targetScale={targetScale}
+                            />
+                        );
+                    })}
                 </div>
             </div>
-
-            {/* Blue Separator Line - Sticky */}
-            <div className="sticky top-0 z-40 bg-transparent">
-                <motion.div style={{ width: lineWidth }} className="h-1 bg-blue-500 origin-left" />
-            </div>
-
-            {/* STICKY CONTAINER FOR CARDS */}
-            <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-
-                {/* CARD 1 */}
-                <ScrollProjectCard
-                    project={projectsData[0]}
-                    progress={scrollYProgress}
-                    range={[0, 0.05, 0.35, 0.45]}
-                    opacities={[1, 1, 1, 0]}
-                    scales={[1, 1, 1, 0.95]}
-                    yOffsets={[0, 0, 0, -40]}
-                />
-
-                {/* CARD 2 */}
-                <ScrollProjectCard
-                    project={projectsData[1]}
-                    progress={scrollYProgress}
-                    range={[0.35, 0.45, 0.65, 0.75]}
-                    opacities={[0, 1, 1, 0]}
-                    scales={[0.95, 1, 1, 0.95]}
-                    yOffsets={[40, 0, 0, -40]}
-                />
-
-                {/* CARD 3 */}
-                <ScrollProjectCard
-                    project={projectsData[2]}
-                    progress={scrollYProgress}
-                    range={[0.65, 0.75, 0.95, 1]}
-                    opacities={[0, 1, 1, 1]}
-                    scales={[0.95, 1, 1, 1]}
-                    yOffsets={[40, 0, 0, 0]}
-                />
-            </div>
         </section>
+    );
+}
+
+// --------------------------------------------------------
+// Sub-Component: The Inner Card Layout
+// --------------------------------------------------------
+
+interface CardProps {
+    index: number;
+    project: typeof projects[0];
+    progress: MotionValue<number>;
+    total: number;
+    targetScale: number;
+}
+
+const ProjectCard = ({ index, project, progress, total, targetScale }: CardProps) => {
+    const range = [index * (1 / total), 1];
+    const scale = useTransform(progress, range, [1, targetScale]);
+    const opacity = useTransform(progress, range, [1, 0.6]);
+
+    const isDark = project.color === "#1A1A1A";
+
+    return (
+        <motion.div
+            style={{
+                scale,
+                opacity,
+                backgroundColor: project.color,
+                color: project.textColor,
+                // MAGIC FIX: We pass the specific offsets as CSS variables into the style object
+                '--card-top-mobile': `calc(10vh + ${index * 16}px)`,
+                '--card-top-desktop': `calc(15vh + ${index * 30}px)`
+            } as unknown as React.CSSProperties}
+            // We read those CSS variables using Tailwind's arbitrary values feature
+            className="sticky top-[var(--card-top-mobile)] md:top-[var(--card-top-desktop)] w-full h-[80vh] md:h-[80vh] rounded-[2rem] md:rounded-[3rem] shadow-xl overflow-hidden border border-black/5 origin-top flex flex-col md:flex-row"
+        >
+            {/* LEFT COLUMN: Text & Details */}
+            {/* On mobile, this takes 60% height to ensure text fits, on desktop 100% height */}
+            <div className="w-full md:w-5/12 h-[55%] md:h-full p-6 sm:p-8 md:p-16 flex flex-col justify-center order-2 md:order-1">
+
+                {/* Tags - smaller gap and text for mobile */}
+                <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
+                    {project.tags.map(tag => (
+                        <span
+                            key={tag}
+                            className={`text-[10px] md:text-xs font-bold uppercase tracking-wider px-2.5 py-1 md:px-3 md:py-1.5 rounded-full ${isDark ? 'bg-white/10 text-white/80' : 'bg-black/5 text-black/60'
+                                }`}
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+
+                {/* Title & Description - scaled down slightly for mobile */}
+                <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-6 tracking-tight leading-[1.05]">
+                    {project.title}
+                </h3>
+                {/* line-clamp-3 ensures the description doesn't overflow on tiny iPhone screens */}
+                <p className={`text-base md:text-xl font-medium mb-6 md:mb-10 line-clamp-3 md:line-clamp-none ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
+                    {project.desc}
+                </p>
+
+                {/* Call to Action */}
+                <Link
+                    href={`/work/${project.slug}`}
+                    className={`inline-flex items-center justify-center gap-2 w-full md:w-fit px-6 py-3.5 md:py-3 rounded-full text-sm font-bold transition-all hover:scale-105 active:scale-95 ${isDark
+                        ? 'bg-white text-black hover:bg-gray-200'
+                        : 'bg-[#1A1A1A] text-white hover:bg-black'
+                        }`}
+                >
+                    View Case Study
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </Link>
+            </div>
+
+            {/* RIGHT COLUMN: The Image Mockup */}
+            {/* On mobile, image moves to top (order-1) and takes 45% height */}
+            <div className="w-full md:w-7/12 h-[45%] md:h-full relative overflow-hidden bg-black/5 shadow-[inset_10px_0_20px_rgba(0,0,0,0.03)] order-1 md:order-2 border-b border-black/5 md:border-b-0 md:border-l">
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/10 z-0" />
+
+                <Image
+                    src={project.image}
+                    alt={`${project.title} interface`}
+                    fill
+                    className="object-cover md:object-left-top object-center z-10 hover:scale-105 transition-transform duration-700 ease-out"
+                />
+            </div>
+        </motion.div>
     );
 }

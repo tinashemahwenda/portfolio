@@ -9,6 +9,11 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            // 1. Set Alexandria as the default sans font
+            fontFamily: {
+                sans: ['var(--font-alexandria)', 'sans-serif'],
+            },
+            // (Keeping your slow spin animation for the badge)
             animation: {
                 'spin-slow': 'spin 4s linear infinite',
             }

@@ -1,50 +1,69 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const statements = [
-    "The re-imagined Kuluz Branding",
-    "Scaling platforms to 5x users",
-    "Crafting award-winning FinTech apps",
+    "Hi, its Tinashe",
+    "Product Designer & Indie App Developer",
+    "I redesigned an award winning app",
     "Elevating SaaS user experiences",
     "Designing for massive impact"
 ];
 
 export default function BadgeRotator() {
-    const [index, setIndex] = useState(0);
+    const [text, setText] = useState("");
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [loopNum, setLoopNum] = useState(0);
+    const [typingSpeed, setTypingSpeed] = useState(80);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex((prev) => (prev + 1) % statements.length);
-        }, 3000); // Changes every 3 seconds
-        return () => clearInterval(interval);
-    }, []);
+        const i = loopNum % statements.length;
+        const fullText = statements[i];
+
+        const handleTyping = () => {
+            if (isDeleting) {
+                setText(fullText.substring(0, text.length - 1));
+                setTypingSpeed(30); // Fast delete
+            } else {
+                setText(fullText.substring(0, text.length + 1));
+                setTypingSpeed(80); // Consistent, stable typing speed
+            }
+
+            if (!isDeleting && text === fullText) {
+                // Pause when word is complete
+                setTimeout(() => setIsDeleting(true), 2500);
+            } else if (isDeleting && text === "") {
+                // Pause before typing next word
+                setIsDeleting(false);
+                setLoopNum(loopNum + 1);
+                setTypingSpeed(400);
+            }
+        };
+
+        const timer = setTimeout(handleTyping, typingSpeed);
+        return () => clearTimeout(timer);
+    }, [text, isDeleting, loopNum, typingSpeed]);
 
     return (
-        // Remove background, padding, rounded corners, border. Apply new text color.
-        // Keep flex layout and spacing.
-        <motion.div
-            layout
-            className="text-gray-700 text-xs font-semibold mb-8 flex items-center gap-2 overflow-hidden"
-        >
-            {/* The simple blinking green dot on the left - stays green */}
-            <motion.div layout className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
+        // Removed all Framer Motion 'layout' tags.
+        // Kept standard flex without forcing width changes.
+        <div className="text-gray-700 text-xs font-semibold mb-4 flex items-center gap-2 h-6">
 
-            {/* The rotating text */}
-            <div className="relative flex items-center justify-center">
-                <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.span
-                        key={statements[index]}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="whitespace-nowrap"
-                    >
-                        {statements[index]}
-                    </motion.span>
-                </AnimatePresence>
+            {/* The pulsing green dot */}
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
+
+            {/* The typing text wrapper */}
+            <div className="flex items-center text-left">
+                <span>{text}</span>
+
+                {/* Simple, standard blinking cursor */}
+                <motion.span
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                    className="inline-block w-[2px] h-3.5 bg-gray-400 ml-[2px]"
+                />
             </div>
-        </motion.div>
+
+        </div>
     );
 }
