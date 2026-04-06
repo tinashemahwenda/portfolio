@@ -21,12 +21,13 @@ export default function BadgeRotator() {
     }, []);
 
     return (
-        // 'layout' tells Framer Motion to smoothly animate changes in width/height
+        // Remove background, padding, rounded corners, border. Apply new text color.
+        // Keep flex layout and spacing.
         <motion.div
             layout
-            className="bg-green-50 text-green-700 px-4 py-2 rounded-full text-xs font-semibold mb-8 flex items-center gap-2 overflow-hidden border border-green-100"
+            className="text-gray-700 text-xs font-semibold mb-8 flex items-center gap-2 overflow-hidden"
         >
-            {/* The simple blinking dot on the left */}
+            {/* The simple blinking green dot on the left - stays green */}
             <motion.div layout className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
 
             {/* The rotating text */}
