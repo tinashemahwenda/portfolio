@@ -11,7 +11,7 @@ const projects = [
         slug: "albinism-konnect",
         desc: "Scaled the platform to 3x its original user base through improved accessibility & multilingual support",
         tags: ["🏆Awarded Davis Peace Project 2025"],
-        image: "/projects/albinism-konnect-background-gray.jpg",
+        image: "/portfolio/projects/albinism-konnect-background-gray.jpg",
         color: "#F3F4F6",
         textColor: "#111111"
     },
@@ -21,7 +21,7 @@ const projects = [
         slug: "old-mutual",
         desc: "Led the redesign of an AI-powered SaaS tenant portal which led to client retention",
         tags: ["SaaS", "Dashboard", "AI"],
-        image: "/projects/old-mutual-dash.png",
+        image: "/portfolio/projects/old-mutual-dash.png",
         color: "#E5E7EB",
         textColor: "#111111"
     },
@@ -31,7 +31,7 @@ const projects = [
         slug: "chema",
         desc: "Led the full-cycle product design and developemnt for a Funeral Crowd-funding platform for people abroad",
         tags: ["Fintech", "Crowd-Funding"],
-        image: "/projects/chema.png",
+        image: "/portfolio/projects/chema.png",
         color: "#FFFFFF",
         textColor: "#111111"
     },
