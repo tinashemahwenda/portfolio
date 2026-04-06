@@ -41,6 +41,14 @@ const projectData = {
     }
 };
 
+// ADD THIS NEW FUNCTION:
+export function generateStaticParams() {
+    // We grab all the keys from your projectData object (e.g., 'muzukuru', 'agrosense-ai')
+    // and tell Next.js to build an HTML page for each one.
+    return Object.keys(projectData).map((slug) => ({
+        slug: slug,
+    }));
+}
 export default function CaseStudy() {
     const params = useParams();
     const slug = params.slug as string;
