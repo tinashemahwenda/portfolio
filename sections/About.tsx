@@ -136,7 +136,7 @@ export default function About() {
                         className="pt-8"
                     >
                         <a
-                            href="/tinashe-resume.pdf"
+                            href="/portfolio/tinashe-mahwenda-product-designer-2026.pdf"
                             download="Tinashe_Resume.pdf"
                             className="inline-flex items-center gap-3 bg-[#1A1A1A] text-white px-8 py-4 rounded-full text-sm font-bold hover:bg-black hover:scale-105 active:scale-95 transition-all duration-300 group"
                         >
