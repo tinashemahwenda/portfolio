@@ -1,7 +1,5 @@
-// app/work/[slug]/page.tsx
 import CaseStudyUI from "./CaseStudyUI";
 
-// 1. Your Project Data Database
 const projectData = {
     "muzukuru": {
         title: "Muzukuru",
@@ -19,7 +17,7 @@ const projectData = {
         role: "UI/UX Designer",
         timeline: "6 Months",
         services: ["Dashboard Design", "Data Visualization", "Design System"],
-        heroImage: "/projects/old-mutual-dash.png",
+        heroImage: "../projects/old-mutual-dash.png",
         challenge: "Farmers were overwhelmed by raw data points regarding soil moisture, weather patterns, and crop health.",
         solution: "We created a heavily modular dashboard that prioritizes 'glanceability.' Using a card-based architecture, farmers can see critical alerts immediately."
     },
@@ -35,17 +33,15 @@ const projectData = {
     }
 };
 
-// 2. The Build-Time Function (This keeps GitHub Pages happy)
 export function generateStaticParams() {
     return Object.keys(projectData).map((slug) => ({
         slug: slug,
     }));
 }
 
-// 3. The Server Component
-// In a server component, the URL parameters are passed automatically as a prop!
-export default function CaseStudy({ params }: { params: { slug: string } }) {
-    const project = projectData[params.slug as keyof typeof projectData];
+export default async function CaseStudy({ params }: { params: Promise<{ slug: string }> }) {
+    const resolvedParams = await params;
+    const project = projectData[resolvedParams.slug as keyof typeof projectData];
 
     if (!project) {
         return (
@@ -55,6 +51,5 @@ export default function CaseStudy({ params }: { params: { slug: string } }) {
         );
     }
 
-    // Pass the data down to the Client Component
     return <CaseStudyUI project={project} />;
 }
