@@ -1,28 +1,29 @@
 import type { Metadata } from "next";
-import { Alexandria } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import SmoothScrolling from "@/components/SmoothScrolling";
 
-// Configure the Alexandria font
-const alexandria = Alexandria({
+// Configure the font with the subsets and weights you need
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  // This variable allows Tailwind to easily hook into it
-  variable: "--font-alexandria",
+  // This variable allows Tailwind to pick it up cleanly
+  variable: "--font-jakarta",
 });
 
 export const metadata: Metadata = {
-  title: "Tinashe Mahwenda | Product Designer",
-  description: "Product Design Portfolio",
+  title: "Tinashe | Product Designer",
+  description: "Product Designer specializing in high-performance UI and user experiences.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={`${alexandria.variable} font-sans antialiased bg-white`}>
-        {/* Wrap children here */}
-        <SmoothScrolling>
-          {children}
-        </SmoothScrolling>
+    // Apply the font variable and base smoothing classes to the HTML tag
+    <html lang="en" className={`${jakarta.variable} scroll-smooth`}>
+      <body className="font-sans antialiased bg-white text-neutral-900 selection:bg-neutral-900 selection:text-white">
+        {children}
       </body>
     </html>
   );

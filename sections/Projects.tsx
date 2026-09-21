@@ -28,10 +28,10 @@ export default function Projects() {
             />
 
             <ProjectCard
-                title="CHEMA Wallet"
+                title="Autolog"
                 subtitle="Fintech / Crowd-funding / iOS / Android"
-                tags={["Fintech", "Crowd-funding", "iOS", "Android"]}
-                description="Scaled the platform to 5x its original user base through improved accessibility & multilingual support"
+                tags={["GPS", "Gamifications", "iOS", "Android"]}
+                description="Solving Workplace Punctuality Through Gamification"
                 theme="dark"
             />
         </section>

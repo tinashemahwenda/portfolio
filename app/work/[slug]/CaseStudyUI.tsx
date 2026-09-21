@@ -1,4 +1,3 @@
-// app/work/[slug]/CaseStudyUI.tsx
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -6,7 +5,16 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/sections/Footer";
 
-// We pass the project data in as a prop from the Server Component
+// Upgraded Type to support images nested inside list items
+type Section = {
+    title: string;
+    content: string[];
+    quote?: string;
+    quoteAuthor?: string;
+    list?: { heading?: string; text: string; image?: string }[];
+    images?: string[];
+};
+
 export default function CaseStudyUI({ project }: { project: any }) {
     return (
         <main className="min-h-screen bg-white selection:bg-black selection:text-white">
@@ -88,29 +96,117 @@ export default function CaseStudyUI({ project }: { project: any }) {
                 </div>
             </motion.section>
 
-            {/* EDITORIAL TEXT LAYOUT */}
+            {/* DYNAMIC EDITORIAL TEXT LAYOUT */}
             <section className="px-8 max-w-5xl mx-auto mb-40">
-                <div className="flex flex-col md:flex-row gap-16 md:gap-32 mb-24">
-                    <div className="md:w-1/3">
-                        <h3 className="text-3xl font-extrabold tracking-tight">The Challenge</h3>
-                    </div>
-                    <div className="md:w-2/3">
-                        <p className="text-xl md:text-2xl text-gray-600 font-medium leading-relaxed">
-                            {project.challenge}
-                        </p>
-                    </div>
-                </div>
+                {project.sections.map((section: Section, index: number) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col md:flex-row gap-12 md:gap-32 mb-24 md:mb-40"
+                    >
+                        {/* Left Column: Sticky Section Title */}
+                        <div className="md:w-1/3">
+                            <h3 className="text-3xl font-extrabold tracking-tight md:sticky md:top-32 text-[#1A1A1A]">
+                                {section.title}
+                            </h3>
+                        </div>
 
-                <div className="flex flex-col md:flex-row gap-16 md:gap-32">
-                    <div className="md:w-1/3">
-                        <h3 className="text-3xl font-extrabold tracking-tight">The Solution</h3>
-                    </div>
-                    <div className="md:w-2/3">
-                        <p className="text-xl md:text-2xl text-gray-600 font-medium leading-relaxed">
-                            {project.solution}
-                        </p>
-                    </div>
-                </div>
+                        {/* Right Column: Rich Content */}
+                        <div className="md:w-2/3 space-y-10">
+
+                            {section.quote && (
+                                <blockquote className="border-l-4 border-blue-600 pl-6 md:pl-8 py-2 mb-12">
+                                    <p className="text-2xl md:text-3xl font-semibold text-[#1A1A1A] tracking-tight leading-snug mb-4">
+                                        "{section.quote}"
+                                    </p>
+                                    {section.quoteAuthor && (
+                                        <footer className="text-sm font-bold text-gray-400 uppercase tracking-widest">
+                                            — {section.quoteAuthor}
+                                        </footer>
+                                    )}
+                                </blockquote>
+                            )}
+
+                            <div className="space-y-6">
+                                {section.content.map((paragraph, i) => (
+                                    <p key={i} className="text-xl md:text-2xl text-gray-600 font-medium leading-relaxed">
+                                        {paragraph}
+                                    </p>
+                                ))}
+                            </div>
+
+                            {/* Upgraded List Rendering with Inline Image Support */}
+                            {section.list && (
+                                <ul className="space-y-12 pt-8 border-t border-gray-100 mt-8">
+                                    {section.list.map((item, i) => (
+                                        <li key={i} className="flex flex-col md:flex-row gap-6">
+                                            <div className="hidden md:block w-2.5 h-2.5 mt-3 rounded-full bg-[#1A1A1A] shrink-0" />
+                                            <div className="w-full">
+                                                {item.heading && (
+                                                    <h4 className="text-xl font-extrabold text-[#1A1A1A] mb-2 tracking-tight">
+                                                        {item.heading}
+                                                    </h4>
+                                                )}
+                                                <p className="text-lg text-gray-600 leading-relaxed font-medium mb-6">
+                                                    {item.text}
+                                                </p>
+
+                                                {/* NEW: Inline Feature Mockup */}
+                                                {item.image && (
+                                                    <div className="w-full relative aspect-[16/10] rounded-2xl overflow-hidden bg-gray-50 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400">
+                                                        {item.image === "placeholder" ? (
+                                                            <>
+                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-2 opacity-50">
+                                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                                                    <polyline points="21 15 16 10 5 21" />
+                                                                </svg>
+                                                                <span className="text-xs font-bold tracking-widest uppercase">Feature Detail</span>
+                                                            </>
+                                                        ) : (
+                                                            <Image src={item.image} alt="Feature visual" fill className="object-cover" />
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
+                            {/* MASSIVE STACKED MULTI-IMAGE GALLERY */}
+                            {section.images && section.images.length > 0 && (
+                                <div className="pt-8 w-full flex flex-col gap-12">
+                                    {section.images.map((img, imgIndex) => (
+                                        img === "placeholder" ? (
+                                            <div key={imgIndex} className="w-full aspect-[16/10] rounded-3xl bg-gray-50 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 transition-colors hover:bg-gray-100">
+                                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-4 opacity-50">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                                    <polyline points="21 15 16 10 5 21" />
+                                                </svg>
+                                                <span className="text-base font-bold tracking-widest uppercase">UI Mockup {imgIndex + 1}</span>
+                                            </div>
+                                        ) : (
+                                            <div key={imgIndex} className="relative w-full aspect-[16/10] rounded-3xl overflow-hidden bg-gray-100 shadow-sm border border-black/5">
+                                                <Image
+                                                    src={img}
+                                                    alt={`Visual for ${section.title} - Image ${imgIndex + 1}`}
+                                                    fill
+                                                    className="object-cover hover:scale-105 transition-transform duration-700 ease-out"
+                                                />
+                                            </div>
+                                        )
+                                    ))}
+                                </div>
+                            )}
+
+                        </div>
+                    </motion.div>
+                ))}
             </section>
 
             <Footer />

@@ -4,22 +4,22 @@ import { motion } from "framer-motion";
 // 1. Added your work experience data
 const experience = [
     {
-        role: "Lead Product Designer",
+        role: "Product Designer & Developer",
         company: "Agrosense AI, South Africa",
         date: "2025 — Present",
-        desc: "Spearheaded the design system and led a team of 3 designers to overhaul the core banking app, increasing user retention by 24%."
+        desc: "Leading the overall design and development of Agrosense AI's mobile applications, focusing on branding, user experience and interface design for agricultural technology solutions."
     },
     {
         role: "Product Designer",
         company: "Muzukuru Funeral Streaming, Harare",
         date: "2025-2026",
-        desc: "Designed accessible patient portals and telemedicine dashboards used by over 50,000 monthly active users."
+        desc: "Designed the Memorial Management Portal for Muzukuru & its tenants including Old Mutual, Innscor & First Mutual. Lead the design for CHEMA, a funeral crowd-funding platform, and the Totemfolio Project."
     },
     {
         role: "Mobile App Developer",
         company: "Golden Glow, Eastern Cape",
-        date: "2016 — 2018",
-        desc: "Crafted high-converting landing pages, branding identities, and mobile prototypes for early-stage startups."
+        date: "2023-2024",
+        desc: "Crafted the Trekr App, an app that tracked parcels bought from China to Zimbabwe & South Africa. The app provided real-time updates on parcel locations, estimated delivery times, and notifications for users."
     }
 ];
 
@@ -64,8 +64,8 @@ export default function About() {
                             that feel effortless and drive real business outcomes.
                         </p>
                         <p className="text-lg text-gray-500 leading-relaxed">
-                            With over 5 years of experience, I’ve worked with startups and
-                            established brands across fintech, health-tech, and SaaS. I believe
+                            With over 3 years of experience, I’ve worked with startups and
+                            established brands across fintech, health-tech, and SaaS Products. I believe
                             that great design isn't just about how it looks, but how it works
                             to solve a user's pain point.
                         </p>
