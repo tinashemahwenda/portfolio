@@ -10,10 +10,10 @@ const projects = [
         slug: "albinism-konnect",
         desc: "Scaled the platform to 3x its original user base through improved accessibility & multilingual support.",
         tags: ["🏆 Davis Peace Project 2025", "Mobile", "Accessibility"],
-        image: "/portfolio/projects/albinism-konnect-background-gray.jpg",
+        image: "/projects/albinism-konnect-background-gray.jpg",
         theme: "dark",
         // Update these paths to where you export your 1:1 square icon graphics
-        icon: "/portfolio/logos/albinism-icon.png"
+        icon: "/logos/albinism-icon.png"
     },
     {
         id: 2,
@@ -21,9 +21,9 @@ const projects = [
         slug: "old-mutual",
         desc: "Led the redesign of an AI-powered SaaS tenant portal which led to client retention.",
         tags: ["SaaS", "Dashboard", "AI"],
-        image: "/portfolio/projects/old-mutual-dash.png",
+        image: "/projects/old-mutual-dash.png",
         theme: "light",
-        icon: "/portfolio/logos/old-mutual-icon.png"
+        icon: "/logos/old-mutual-icon.png"
     },
     {
         id: 3,
@@ -31,9 +31,9 @@ const projects = [
         slug: "autolog",
         desc: "Solving Workplace Punctuality Through Gamification & A GPS Tracking System.",
         tags: ["GPS", "Gamification"],
-        image: "/portfolio/projects/autolog.png",
+        image: "/projects/autolog.png",
         theme: "dark",
-        icon: "/portfolio/icons/autolog-icon.png"
+        icon: "/icons/autolog-icon.png"
     },
 ];
 
