@@ -5,8 +5,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // ADD THIS LINE: It tells Next.js to append /portfolio to all internal Next.js links and <Image> components
-  basePath: '/portfolio',
 };
 
 
