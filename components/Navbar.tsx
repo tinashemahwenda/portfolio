@@ -1,6 +1,8 @@
 "use client";
+
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { useLenis } from "lenis/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,41 +10,50 @@ import Image from "next/image";
 export default function Navbar() {
     const { scrollY } = useScroll();
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isManuallyExpanded, setIsManuallyExpanded] = useState(false);
-    const [pathname, setPathname] = useState("/");
+    const [isExpanded, setIsExpanded] = useState(false);
+    const pathname = usePathname();
     const lenis = useLenis();
-
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            setPathname(window.location.pathname);
-        }
-    }, []);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         setIsScrolled(latest > 50);
-        if (isManuallyExpanded) {
-            setIsManuallyExpanded(false);
+        if (isExpanded) {
+            setIsExpanded(false);
         }
     });
 
-    const isCollapsed = isScrolled && !isManuallyExpanded;
+    const isCollapsed = isScrolled && !isExpanded;
 
     const handleLogoClick = (e: React.MouseEvent) => {
         if (isCollapsed) {
             e.preventDefault();
-            setIsManuallyExpanded(true);
+            setIsExpanded(true);
         } else if (pathname === "/") {
             e.preventDefault();
-            lenis?.scrollTo(0, { immediate: true });
+            // Added fallback to native scroll if lenis is unmounted
+            if (lenis) {
+                lenis.scrollTo(0, { immediate: true });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
     };
 
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
         if (pathname === "/") {
             e.preventDefault();
-            lenis?.scrollTo(`#${id}`, { offset: -100, immediate: true });
+            const target = document.querySelector(id);
+
+            if (target) {
+                // Bulletproof routing: Use Lenis if ready, otherwise fallback to native DOM scrolling
+                if (lenis) {
+                    lenis.scrollTo(id, { offset: -100 });
+                } else {
+                    const top = target.getBoundingClientRect().top + window.scrollY - 100;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            }
         }
-        setIsManuallyExpanded(false);
+        setIsExpanded(false);
     };
 
     return (
@@ -51,12 +62,12 @@ export default function Navbar() {
                 layout
                 initial={false}
                 animate={{
-                    backgroundColor: isCollapsed ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.8)",
+                    backgroundColor: isCollapsed ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.85)",
                 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="pointer-events-auto flex items-center p-2 rounded-full backdrop-blur-xl border border-black/5 shadow-lg shadow-black/[0.03] overflow-hidden"
+                className="pointer-events-auto max-w-full flex items-center p-2 rounded-full backdrop-blur-xl border border-black/5 shadow-lg shadow-black/[0.03] overflow-hidden"
             >
-                <motion.div layout>
+                <motion.div layout className="shrink-0 z-20">
                     <Link
                         href="/"
                         onClick={handleLogoClick}
@@ -79,28 +90,30 @@ export default function Navbar() {
                         <motion.div
                             layout
                             initial={{ width: 0, opacity: 0 }}
-                            animate={{ width: "auto", opacity: 1 }}
+                            // FIX: Changed from "auto" to "max-content" to prevent the button from truncating on small mobile screens
+                            animate={{ width: "max-content", opacity: 1 }}
                             exit={{ width: 0, opacity: 0 }}
                             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                            className="flex items-center whitespace-nowrap overflow-hidden"
+                            className="flex items-center overflow-hidden"
                         >
-                            <div className="flex items-center gap-8 pl-6 pr-8 text-sm font-medium text-gray-600">
+                            <div className="hidden md:flex items-center gap-8 pl-6 pr-8 text-sm font-bold text-gray-500 whitespace-nowrap">
                                 <Link
                                     href="/#work"
-                                    onClick={(e) => handleNavClick(e, "work")}
+                                    onClick={(e) => handleNavClick(e, "#work")}
                                     className="hover:text-black transition-colors"
                                 >
                                     Work
                                 </Link>
                                 <Link
                                     href="/#about"
-                                    onClick={(e) => handleNavClick(e, "about")}
+                                    onClick={(e) => handleNavClick(e, "#about")}
                                     className="hover:text-black transition-colors"
                                 >
                                     About
                                 </Link>
                                 <a
-                                    href="/tinashe-resume.pdf"
+                                    // FIX: Updated to match the actual file name defined in your About.tsx section
+                                    href="/tinashe-mahwenda-product-designer-2026.pdf"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="hover:text-black transition-colors"
@@ -108,12 +121,16 @@ export default function Navbar() {
                                     Resume
                                 </a>
                             </div>
-                            <a
-                                href="mailto:hello@tinashe.design"
-                                className="bg-[#1A1A1A] text-white px-6 py-3 rounded-full text-sm font-bold tracking-wide hover:bg-black transition-transform active:scale-95"
-                            >
-                                Talk to Tinashe
-                            </a>
+
+                            <div className="pl-2 md:pl-0 shrink-0">
+                                <Link
+                                    href="/contact"
+                                    onClick={() => setIsExpanded(false)}
+                                    className="bg-[#1A1A1A] text-white px-4 py-2.5 md:px-6 md:py-3 rounded-full text-sm font-bold tracking-wide hover:bg-black transition-transform active:scale-95 inline-block whitespace-nowrap"
+                                >
+                                    Talk to Tinashe
+                                </Link>
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>

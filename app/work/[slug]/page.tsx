@@ -7,7 +7,7 @@ const projectData = {
         role: "UX/UI Product Designer",
         timeline: "4 Months",
         services: ["UX Research", "Accessibility", "Mobile App Design"],
-        heroImage: "/projects/albinism-banner-2.png", // Ensure this is a 16:10 high-res image
+        heroImage: "/projects/albinism-banner-2.png",
         sections: [
             {
                 title: "Challenge Overview",
@@ -29,7 +29,7 @@ const projectData = {
                         text: "Existing mHealth tools target high-burden diseases (HIV, TB). NgoziYangu (Tanzania) is the only albinism-adjacent app, but it is a manual teledermatology tool with no AI classification or UV monitoring."
                     }
                 ],
-                images: ["placeholder"] // Great spot for a persona or ecosystem map
+                images: ["placeholder"]
             },
             {
                 title: "Proposed Solution",
@@ -37,7 +37,7 @@ const projectData = {
                     "As a result of these findings, I embarked on a journey to create an ML-powered digital health platform offering automated skin lesion screening, real-time UV alerts, CHW referral dashboards, and multilingual education.",
                     "The ecosystem was split into two main user groups: a Dashboard App for health practitioners, and a dedicated Mobile App for people with albinism."
                 ],
-                images: ["placeholder", "placeholder"] // Showcase the Dashboard and Mobile App side-by-side
+                images: ["placeholder", "placeholder"]
             },
             {
                 title: "UX Research: Biological Constraints",
@@ -83,7 +83,7 @@ const projectData = {
                         text: "Cramped text forces the eye to work harder. I implemented a 1.75 - 2.0 line spacing (leading) to create enough whitespace 'rails' to prevent the user from losing their place."
                     }
                 ],
-                images: ["placeholder"] // Perfect place to show a UI comparison of standard vs. 64px targets
+                images: ["placeholder"]
             },
             {
                 title: "Introducing: 3D Accessibility",
@@ -104,13 +104,13 @@ const projectData = {
                         text: "Users can seamlessly play or pause the audio narration simply by shaking the phone, bypassing the need to hunt for a pause button."
                     }
                 ],
-                images: ["placeholder", "placeholder", "placeholder"] // Showcase the final high-fidelity screens utilizing these 3D principles
+                images: ["placeholder", "placeholder", "placeholder"]
             }
         ]
     },
     "autolog": {
         title: "Autolog",
-        subtitle: "Solving Workplace Punctuality Through Gamification.",
+        subtitle: "Solving Workplace Punctuality Through Gamification",
         role: "UX/UI Product Designer",
         timeline: "4 Weeks",
         services: ["UX Research", "Gamification", "Hardware Integration"],
@@ -126,7 +126,7 @@ const projectData = {
             {
                 title: "Ideation: Reverse-engineering an Accident",
                 content: [
-                    "The idea for Autolog actually came from a personal mishap. On a Thursday evening, I left my MacBook at the office. A few kilometers into my commute, my phone buzzed with an Apple 'Find My' notification.",
+                    "On a Thursday evening, I left my MacBook at the office. A few kilometers into my commute, my phone buzzed with an Apple 'Find My' notification.",
                     "That notification triggered a thought: What if I reverse-engineered this exact process for the workplace? The solution had to be invisible; we didn't want workers fumbling with an app at the gate."
                 ]
             },
@@ -168,7 +168,6 @@ const projectData = {
                         text: "A contribution graph maps punctuality onto a color-coded grid. Solid blue squares feel satisfying, while red 'absent' squares disrupt the pattern, encouraging consistency."
                     }
                 ],
-                // Generates two side-by-side placeholders
                 images: ["placeholder", "placeholder"]
             },
             {
@@ -250,11 +249,10 @@ const projectData = {
     }
 };
 
-
-
 export default async function CaseStudy({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
-    const project = projectData[resolvedParams.slug as keyof typeof projectData];
+    const currentSlug = resolvedParams.slug as keyof typeof projectData;
+    const project = projectData[currentSlug];
 
     if (!project) {
         return (
@@ -264,5 +262,32 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         );
     }
 
-    return <CaseStudyUI project={project} />;
+    const keys = Object.keys(projectData) as Array<keyof typeof projectData>;
+    const currentIndex = keys.indexOf(currentSlug);
+
+    const prevIndex = (currentIndex - 1 + keys.length) % keys.length;
+    const nextIndex = (currentIndex + 1) % keys.length;
+
+    const prevSlug = keys[prevIndex];
+    const nextSlug = keys[nextIndex];
+
+    const prevProject = {
+        slug: prevSlug,
+        title: projectData[prevSlug].title,
+        subtitle: projectData[prevSlug].subtitle
+    };
+
+    const nextProject = {
+        slug: nextSlug,
+        title: projectData[nextSlug].title,
+        subtitle: projectData[nextSlug].subtitle
+    };
+
+    return (
+        <CaseStudyUI
+            project={project}
+            prevProject={prevProject}
+            nextProject={nextProject}
+        />
+    );
 }

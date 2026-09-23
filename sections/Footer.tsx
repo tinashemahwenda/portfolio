@@ -1,13 +1,19 @@
 "use client";
 import { motion } from "framer-motion";
 import { useLenis } from "lenis/react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Footer() {
     const lenis = useLenis();
+    const pathname = usePathname();
+
+    // Check if the current route is the contact page
+    const isContactPage = pathname === "/contact";
 
     const handleBackToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        // Uses Lenis for a beautiful cinematic glide back to the top
+        // Uses Lenis for a beautiful cinematic glide back to the top[cite: 10]
         lenis?.scrollTo(0, { duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
     };
 
@@ -23,29 +29,50 @@ export default function Footer() {
                         viewport={{ once: true }}
                         className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-[1.1] max-w-4xl"
                     >
-                        Have an idea? <br />
-                        <span className="text-gray-500">Let’s bring it to life.</span>
+                        {isContactPage ? (
+                            <>
+                                Want to explore more? <br />
+
+                            </>
+                        ) : (
+                            <>
+                                Have an idea? <br />
+                                <span className="text-gray-500">Let’s bring it to life.</span>
+                            </>
+                        )}
                     </motion.h2>
 
-                    <motion.a
-                        href="mailto:hello@tinashe.design" // Replace with your actual email
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="bg-white text-[#111] px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-colors duration-300"
                     >
-                        Talk to Tinashe
-                    </motion.a>
+                        {isContactPage ? (
+                            <Link
+                                href="/"
+                                className="inline-block bg-white text-[#111] px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-colors duration-300"
+                            >
+                                Go back home
+                            </Link>
+                        ) : (
+                            <Link
+                                href="/contact"
+                                className="inline-block bg-white text-[#111] px-8 py-4 rounded-full text-lg font-bold hover:bg-gray-200 transition-colors duration-300"
+                            >
+                                Talk to Tinashe
+                            </Link>
+                        )}
+                    </motion.div>
                 </div>
 
-                {/* Bottom Section: Links and Copyright */}
+                {/* Bottom Section: Links and Copyright[cite: 10] */}
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-gray-800 text-sm font-medium text-gray-400">
 
                     <div className="flex gap-6">
-                        <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
-                        <a href="#" className="hover:text-white transition-colors">Dribbble</a>
-                        <a href="#" className="hover:text-white transition-colors">Twitter (X)</a>
+                        <a href="https://linkedin.com/in/tinashe" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+                        <a href="https://dribbble.com/tinashe" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Dribbble</a>
+                        <a href="https://twitter.com/tinashe" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter (X)</a>
                     </div>
 
                     <div className="flex items-center gap-8">

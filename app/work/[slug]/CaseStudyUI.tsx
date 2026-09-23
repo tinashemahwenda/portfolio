@@ -5,7 +5,6 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/sections/Footer";
 
-// Upgraded Type to support images nested inside list items
 type Section = {
     title: string;
     content: string[];
@@ -15,16 +14,27 @@ type Section = {
     images?: string[];
 };
 
-export default function CaseStudyUI({ project }: { project: any }) {
+type ProjectRef = {
+    slug: string;
+    title: string;
+    subtitle: string;
+};
+
+type Props = {
+    project: any;
+    prevProject: ProjectRef;
+    nextProject: ProjectRef;
+};
+
+export default function CaseStudyUI({ project, prevProject, nextProject }: Props) {
     return (
-        <main className="min-h-screen bg-white selection:bg-black selection:text-white">
+        <main className="min-h-screen bg-white selection:bg-[#1A1A1A] selection:text-white">
             <Navbar />
 
-            {/* HEADER SECTION */}
             <section className="pt-48 pb-24 px-8 max-w-6xl mx-auto">
                 <Link
                     href="/"
-                    className="inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-black transition-colors mb-16"
+                    className="inline-flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-[#1A1A1A] transition-colors mb-16"
                 >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -50,7 +60,6 @@ export default function CaseStudyUI({ project }: { project: any }) {
                     </motion.p>
                 </div>
 
-                {/* METADATA GRID */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -78,7 +87,6 @@ export default function CaseStudyUI({ project }: { project: any }) {
                 </motion.div>
             </section>
 
-            {/* MASSIVE HERO IMAGE */}
             <motion.section
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -96,8 +104,7 @@ export default function CaseStudyUI({ project }: { project: any }) {
                 </div>
             </motion.section>
 
-            {/* DYNAMIC EDITORIAL TEXT LAYOUT */}
-            <section className="px-8 max-w-5xl mx-auto mb-40">
+            <section className="px-8 max-w-5xl mx-auto mb-24">
                 {project.sections.map((section: Section, index: number) => (
                     <motion.div
                         key={index}
@@ -107,16 +114,13 @@ export default function CaseStudyUI({ project }: { project: any }) {
                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-col md:flex-row gap-12 md:gap-32 mb-24 md:mb-40"
                     >
-                        {/* Left Column: Sticky Section Title */}
                         <div className="md:w-1/3">
                             <h3 className="text-3xl font-extrabold tracking-tight md:sticky md:top-32 text-[#1A1A1A]">
                                 {section.title}
                             </h3>
                         </div>
 
-                        {/* Right Column: Rich Content */}
                         <div className="md:w-2/3 space-y-10">
-
                             {section.quote && (
                                 <blockquote className="border-l-4 border-blue-600 pl-6 md:pl-8 py-2 mb-12">
                                     <p className="text-2xl md:text-3xl font-semibold text-[#1A1A1A] tracking-tight leading-snug mb-4">
@@ -138,7 +142,6 @@ export default function CaseStudyUI({ project }: { project: any }) {
                                 ))}
                             </div>
 
-                            {/* Upgraded List Rendering with Inline Image Support */}
                             {section.list && (
                                 <ul className="space-y-12 pt-8 border-t border-gray-100 mt-8">
                                     {section.list.map((item, i) => (
@@ -154,7 +157,6 @@ export default function CaseStudyUI({ project }: { project: any }) {
                                                     {item.text}
                                                 </p>
 
-                                                {/* NEW: Inline Feature Mockup */}
                                                 {item.image && (
                                                     <div className="w-full relative aspect-[16/10] rounded-2xl overflow-hidden bg-gray-50 border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400">
                                                         {item.image === "placeholder" ? (
@@ -177,7 +179,6 @@ export default function CaseStudyUI({ project }: { project: any }) {
                                 </ul>
                             )}
 
-                            {/* MASSIVE STACKED MULTI-IMAGE GALLERY */}
                             {section.images && section.images.length > 0 && (
                                 <div className="pt-8 w-full flex flex-col gap-12">
                                     {section.images.map((img, imgIndex) => (
@@ -194,7 +195,7 @@ export default function CaseStudyUI({ project }: { project: any }) {
                                             <div key={imgIndex} className="relative w-full aspect-[16/10] rounded-3xl overflow-hidden bg-gray-100 shadow-sm border border-black/5">
                                                 <Image
                                                     src={img}
-                                                    alt={`Visual for ${section.title} - Image ${imgIndex + 1}`}
+                                                    alt={`Visual ${imgIndex + 1}`}
                                                     fill
                                                     className="object-cover hover:scale-105 transition-transform duration-700 ease-out"
                                                 />
@@ -203,10 +204,49 @@ export default function CaseStudyUI({ project }: { project: any }) {
                                     ))}
                                 </div>
                             )}
-
                         </div>
                     </motion.div>
                 ))}
+            </section>
+
+            <section className="w-full border-t border-gray-100 relative z-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+                    <Link
+                        href={`/work/${prevProject.slug}`}
+                        className="group p-12 md:p-24 flex flex-col items-start bg-white hover:bg-neutral-50 transition-colors"
+                    >
+                        <span className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 flex items-center gap-2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform">
+                                <path d="M19 12H5M12 19l-7-7 7-7" />
+                            </svg>
+                            Previous
+                        </span>
+                        <h3 className="text-3xl md:text-5xl font-extrabold text-[#1A1A1A] tracking-tighter transition-transform mb-3">
+                            {prevProject.title}
+                        </h3>
+                        <p className="text-lg text-gray-500 font-medium">
+                            {prevProject.subtitle}
+                        </p>
+                    </Link>
+
+                    <Link
+                        href={`/work/${nextProject.slug}`}
+                        className="group p-12 md:p-24 flex flex-col items-end text-right bg-white hover:bg-neutral-50 transition-colors"
+                    >
+                        <span className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6 flex items-center gap-2">
+                            Next
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </span>
+                        <h3 className="text-3xl md:text-5xl font-extrabold text-[#1A1A1A] tracking-tighter transition-transform mb-3">
+                            {nextProject.title}
+                        </h3>
+                        <p className="text-lg text-gray-500 font-medium">
+                            {nextProject.subtitle}
+                        </p>
+                    </Link>
+                </div>
             </section>
 
             <Footer />

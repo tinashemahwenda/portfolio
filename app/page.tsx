@@ -5,6 +5,7 @@ import Gallery from "@/sections/Gallery";
 import About from "@/sections/About";
 import Footer from "@/sections/Footer";
 import TitleMarquee from "@/components/TitleMarquee";
+import Contact from "@/sections/Contact";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <ScrollProjects />
       <Gallery />
       <About />
+
       <Footer />
     </main>
   );
