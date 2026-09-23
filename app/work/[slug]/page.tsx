@@ -1,6 +1,113 @@
 import CaseStudyUI from "./CaseStudyUI";
 
 const projectData = {
+    "albinism-konnect": {
+        title: "Albinism Konnect",
+        subtitle: "Designing To Save 200 000 Lives",
+        role: "UX/UI Product Designer",
+        timeline: "4 Months",
+        services: ["UX Research", "Accessibility", "Mobile App Design"],
+        heroImage: "/projects/albinism-mockup.png", // Ensure this is a 16:10 high-res image
+        sections: [
+            {
+                title: "Challenge Overview",
+                content: [
+                    "Albinism affects more than 200,000 people in Sub-Saharan Africa which means 1 in every 4,000–5,000, which is 4–5 times the global rate, with over 70,000 cases in Zimbabwe. Tragically, 98% of people with albinism in the region die before age 40, and 80% of those deaths are from skin cancer caused by UV hypersensitivity.",
+                    "This presented an exciting challenge to design for saving lives. From our research findings, I discovered several critical gaps in existing solutions:"
+                ],
+                list: [
+                    {
+                        heading: "Fragmented Systems",
+                        text: "No existing platform combines AI-based lesion classification, environmental UV risk monitoring, community health worker (CHW) coordination, and privacy-preserving edge deployment in one system."
+                    },
+                    {
+                        heading: "Lack of Localization",
+                        text: "No platform is tailored to hypopigmented skin phenotypes or delivers education in local languages (Shona, Ndebele). Digital health tools for LMICs succeed only when locally adapted."
+                    },
+                    {
+                        heading: "Misaligned Focus",
+                        text: "Existing mHealth tools target high-burden diseases (HIV, TB). NgoziYangu (Tanzania) is the only albinism-adjacent app, but it is a manual teledermatology tool with no AI classification or UV monitoring."
+                    }
+                ],
+                images: ["placeholder"] // Great spot for a persona or ecosystem map
+            },
+            {
+                title: "Proposed Solution",
+                content: [
+                    "As a result of these findings, I embarked on a journey to create an ML-powered digital health platform offering automated skin lesion screening, real-time UV alerts, CHW referral dashboards, and multilingual education.",
+                    "The ecosystem was split into two main user groups: a Dashboard App for health practitioners, and a dedicated Mobile App for people with albinism."
+                ],
+                images: ["placeholder", "placeholder"] // Showcase the Dashboard and Mobile App side-by-side
+            },
+            {
+                title: "UX Research: Biological Constraints",
+                quote: "For a user with albinism, holding a phone displaying a white screen is like staring directly into a flashlight. It causes squinting, excessive tearing, and sharp physical pain.",
+                quoteAuthor: "Research Insight",
+                content: [
+                    "Designing an app for people with albinism in Sub-Saharan Africa sits at the intersection of biology, accessibility, and regional technology constraints. Albinism presents major physical challenges, including severe visual impairments."
+                ],
+                list: [
+                    {
+                        heading: "Nystagmus (The Moving Target)",
+                        text: "An involuntary, rapid darting of the eyes. Because the fovea is missing, the brain struggles to lock onto a target, rapidly shifting the eye back and forth to construct a clear image."
+                    },
+                    {
+                        heading: "Photophobia (The Pain of Light)",
+                        text: "Extreme sensitivity to light. The iris lacks pigment and is translucent, meaning light scatters right through it, flooding the inside of the eye and causing blinding glare."
+                    },
+                    {
+                        heading: "Low Visual Acuity (The Blur)",
+                        text: "Many people with albinism have visual acuity ranging from 20/70 to 20/400. Because the issue is retinal, this cannot be fully corrected with glasses."
+                    }
+                ]
+            },
+            {
+                title: "Why Standard UI Fails",
+                content: [
+                    "Imagine trying to tap a 44x44 pixel 'Submit' button on a smartphone while someone is vigorously shaking your hand. Small touch targets and dense paragraphs of text become moving targets.",
+                    "Furthermore, modern design heavily favors 'Light Mode' and low-contrast trends. For our users, intricate graphs or light gray placeholder text inside a white search bar disappear entirely into unreadable smudges."
+                ]
+            },
+            {
+                title: "Rewriting WCAG Standards",
+                content: [
+                    "To build a truly functional product, standard accessibility guidelines weren't enough. I had to fundamentally rewrite WCAG baselines to accommodate our users' physical realities."
+                ],
+                list: [
+                    {
+                        heading: "Expanded Touch Targets",
+                        text: "To account for the 'tremor radius' caused by nystagmus, I pushed critical touch targets from the WCAG standard of 44x44 pixels up to 64x64 pixels, significantly reducing error rates."
+                    },
+                    {
+                        heading: "Engineered Line Spacing",
+                        text: "Cramped text forces the eye to work harder. I implemented a 1.75 - 2.0 line spacing (leading) to create enough whitespace 'rails' to prevent the user from losing their place."
+                    }
+                ],
+                images: ["placeholder"] // Perfect place to show a UI comparison of standard vs. 64px targets
+            },
+            {
+                title: "Introducing: 3D Accessibility",
+                content: [
+                    "To cater to all these factors, I coined a new UX Accessibility Standard called '3D Accessibility'. This framework builds features utilizing Sound, Gestures, and Colors for ultimate ease of use."
+                ],
+                list: [
+                    {
+                        heading: "Sound Integration",
+                        text: "An auto-play voice feature instantly narrates the UV status, weather updates, and doctor’s advice in local languages, bridging the gap between visual impairment and reading literacy."
+                    },
+                    {
+                        heading: "Ambient Colors",
+                        text: "The screen floods with ambient color that easily registers in peripheral vision, allowing users to understand application status even through squinted eyes."
+                    },
+                    {
+                        heading: "Motion Gestures",
+                        text: "Users can seamlessly play or pause the audio narration simply by shaking the phone, bypassing the need to hunt for a pause button."
+                    }
+                ],
+                images: ["placeholder", "placeholder", "placeholder"] // Showcase the final high-fidelity screens utilizing these 3D principles
+            }
+        ]
+    },
     "autolog": {
         title: "Autolog",
         subtitle: "Solving Workplace Punctuality Through Gamification.",
@@ -98,7 +205,7 @@ const projectData = {
                 images: ["placeholder"]
             },
             {
-                title: "Experience Audit",
+                title: "User Experience Audit",
                 content: [
                     "I mapped out the flow to identify where the highest friction occurred between both parties. The research revealed three core bottlenecks:"
                 ],
@@ -143,11 +250,7 @@ const projectData = {
     }
 };
 
-export function generateStaticParams() {
-    return Object.keys(projectData).map((slug) => ({
-        slug: slug,
-    }));
-}
+
 
 export default async function CaseStudy({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;

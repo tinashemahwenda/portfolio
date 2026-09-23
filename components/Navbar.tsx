@@ -1,84 +1,122 @@
 "use client";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useLenis } from "lenis/react";
-// Import Image if you end up using a PNG instead of an SVG
+import Link from "next/link";
 import Image from "next/image";
 
 export default function Navbar() {
     const { scrollY } = useScroll();
-    const [hidden, setHidden] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isManuallyExpanded, setIsManuallyExpanded] = useState(false);
+    const [pathname, setPathname] = useState("/");
     const lenis = useLenis();
 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setPathname(window.location.pathname);
+        }
+    }, []);
+
     useMotionValueEvent(scrollY, "change", (latest) => {
-        const previous = scrollY.getPrevious() ?? 0;
-        latest > 50 ? setIsScrolled(true) : setIsScrolled(false);
-        if (latest > previous && latest > 150) {
-            setHidden(true);
-        } else {
-            setHidden(false);
+        setIsScrolled(latest > 50);
+        if (isManuallyExpanded) {
+            setIsManuallyExpanded(false);
         }
     });
 
-    const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-        e.preventDefault();
-        lenis?.scrollTo(`#${id}`, {
-            offset: -100,
-            immediate: true,
-        });
+    const isCollapsed = isScrolled && !isManuallyExpanded;
+
+    const handleLogoClick = (e: React.MouseEvent) => {
+        if (isCollapsed) {
+            e.preventDefault();
+            setIsManuallyExpanded(true);
+        } else if (pathname === "/") {
+            e.preventDefault();
+            lenis?.scrollTo(0, { immediate: true });
+        }
+    };
+
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        if (pathname === "/") {
+            e.preventDefault();
+            lenis?.scrollTo(`#${id}`, { offset: -100, immediate: true });
+        }
+        setIsManuallyExpanded(false);
     };
 
     return (
-        // Outer div handles the fixed positioning and centering
         <div className="fixed top-0 left-0 w-full flex justify-center z-50 pt-6 px-4 pointer-events-none">
             <motion.nav
-                variants={{ visible: { y: 0 }, hidden: { y: "-150%" } }}
-                animate={hidden ? "hidden" : "visible"}
-                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                // The inner nav is now a constrained pill
-                className={`w-full max-w-4xl flex justify-between items-center px-6 py-4 rounded-full pointer-events-auto transition-all duration-300 ${isScrolled ? "bg-white/80 backdrop-blur-md border border-gray-200 shadow-lg shadow-black/5" : "bg-transparent"
-                    }`}
+                layout
+                initial={false}
+                animate={{
+                    backgroundColor: isCollapsed ? "rgba(255, 255, 255, 0.95)" : "rgba(255, 255, 255, 0.8)",
+                }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="pointer-events-auto flex items-center p-2 rounded-full backdrop-blur-xl border border-black/5 shadow-lg shadow-black/[0.03] overflow-hidden"
             >
-
-                <div
-                    className="cursor-pointer flex items-center"
-                    onClick={() => lenis?.scrollTo(0, { immediate: true })}
-                >
-                    <img
-                        src="logo.png"
-                        alt="Tinashe Logo"
-                        className="h-7 md:h-8 w-auto" // Slightly smaller logo fits the pill better
-                    />
-                </div>
-                <div className="hidden md:flex gap-2 text-sm font-medium text-gray-600">
-
-                </div>
-                <div className="hidden md:flex gap-2 text-sm font-medium text-gray-600">
-
-                </div>
-
-                <div className="hidden md:flex gap-8 text-sm font-medium text-gray-600">
-                    <a href="#work" onClick={(e) => scrollToSection(e, "work")} className="hover:text-black transition-colors">Work</a>
-                    <a href="#about" onClick={(e) => scrollToSection(e, "about")} className="hover:text-black transition-colors">About</a>
-                    <a
-                        href="/tinashe-resume.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-black transition-colors flex items-center gap-1"
+                <motion.div layout>
+                    <Link
+                        href="/"
+                        onClick={handleLogoClick}
+                        className={`flex items-center justify-center rounded-full transition-colors duration-300 ${isCollapsed ? "w-12 h-12 bg-gray-100 hover:bg-gray-200" : "w-12 h-12 bg-transparent hover:bg-black/5"
+                            }`}
                     >
-                        Resume
+                        <Image
+                            src="/logo.png"
+                            alt="Tinashe Logo"
+                            width={24}
+                            height={24}
+                            className="w-6 h-6 object-contain"
+                            priority
+                        />
+                    </Link>
+                </motion.div>
 
-                    </a>
-                </div>
-                <div className="hidden md:flex gap-2 text-sm font-medium text-gray-600">
-
-                </div>
-
-                <button className="bg-[#1A1A1A] text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-black transition-colors">
-                    Talk to Tinashe
-                </button>
-
+                <AnimatePresence initial={false}>
+                    {!isCollapsed && (
+                        <motion.div
+                            layout
+                            initial={{ width: 0, opacity: 0 }}
+                            animate={{ width: "auto", opacity: 1 }}
+                            exit={{ width: 0, opacity: 0 }}
+                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                            className="flex items-center whitespace-nowrap overflow-hidden"
+                        >
+                            <div className="flex items-center gap-8 pl-6 pr-8 text-sm font-medium text-gray-600">
+                                <Link
+                                    href="/#work"
+                                    onClick={(e) => handleNavClick(e, "work")}
+                                    className="hover:text-black transition-colors"
+                                >
+                                    Work
+                                </Link>
+                                <Link
+                                    href="/#about"
+                                    onClick={(e) => handleNavClick(e, "about")}
+                                    className="hover:text-black transition-colors"
+                                >
+                                    About
+                                </Link>
+                                <a
+                                    href="/tinashe-resume.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:text-black transition-colors"
+                                >
+                                    Resume
+                                </a>
+                            </div>
+                            <a
+                                href="mailto:hello@tinashe.design"
+                                className="bg-[#1A1A1A] text-white px-6 py-3 rounded-full text-sm font-bold tracking-wide hover:bg-black transition-transform active:scale-95"
+                            >
+                                Talk to Tinashe
+                            </a>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </motion.nav>
         </div>
     );
