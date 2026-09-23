@@ -7,7 +7,7 @@ const projectData = {
         role: "UX/UI Product Designer",
         timeline: "4 Months",
         services: ["UX Research", "Accessibility", "Mobile App Design"],
-        heroImage: "/projects/albinism-mockup.png", // Ensure this is a 16:10 high-res image
+        heroImage: "/projects/albinism-banner-2.png", // Ensure this is a 16:10 high-res image
         sections: [
             {
                 title: "Challenge Overview",
@@ -114,7 +114,7 @@ const projectData = {
         role: "UX/UI Product Designer",
         timeline: "4 Weeks",
         services: ["UX Research", "Gamification", "Hardware Integration"],
-        heroImage: "/projects/old-mutual-dash.png",
+        heroImage: "/projects/autolog-main-mockup.png",
         sections: [
             {
                 title: "Overview",
@@ -187,7 +187,7 @@ const projectData = {
         role: "Lead Designer",
         timeline: "2 Months",
         services: ["Dashboard Design", "Data Visualization", "B2B SaaS"],
-        heroImage: "/projects/old-mutual-dash.png",
+        heroImage: "/projects/old-mutual-banner.png",
         sections: [
             {
                 title: "The Problem: Drowning in Paperwork",

@@ -13,7 +13,7 @@ const projects = [
         image: "/projects/albinism-konnect-background-gray.jpg",
         theme: "dark",
         // Update these paths to where you export your 1:1 square icon graphics
-        icon: "/logos/albinism-icon.png"
+        icon: "/icons/albinism-green-icon.png"
     },
     {
         id: 2,
@@ -23,7 +23,7 @@ const projects = [
         tags: ["SaaS", "Dashboard", "AI"],
         image: "/projects/old-mutual-dash.png",
         theme: "light",
-        icon: "/logos/old-mutual-icon.png"
+        icon: "/icons/old-mutual-icon.png"
     },
     {
         id: 3,
@@ -31,7 +31,7 @@ const projects = [
         slug: "autolog",
         desc: "Solving Workplace Punctuality Through Gamification & A GPS Tracking System.",
         tags: ["GPS", "Gamification"],
-        image: "/projects/autolog.png",
+        image: "/projects/autolog-main-mockup.png",
         theme: "dark",
         icon: "/icons/autolog-icon.png"
     },
